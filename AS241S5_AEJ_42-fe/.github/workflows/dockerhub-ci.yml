@@ -24,3 +24,4 @@ jobs:
           context: ./aej42-fe
           push: true
           tags: snaydervicente/as241s5_aej42-fe:latest
+          # trigger
