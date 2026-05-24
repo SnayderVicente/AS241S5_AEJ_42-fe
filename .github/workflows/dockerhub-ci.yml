@@ -22,6 +22,6 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: ./aej42-fe
-          file: ./aej42-fe/dockerfile
+          file: ./aej42-fe/Dockerfile
           push: true
           tags: snaydervicente/as241s5_aej42-fe:latest
