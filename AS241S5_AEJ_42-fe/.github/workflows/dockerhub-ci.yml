@@ -1,0 +1,26 @@
+name: Build and Push Frontend to DockerHub
+
+on:
+  push:
+    branches: [ develop ]
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Login a DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME_SNAYDER }}
+          password: ${{ secrets.DOCKERHUB_TOKEN_SNAYDER }}
+
+      - name: Build y Push imagen
+        uses: docker/build-push-action@v5
+        with:
+          context: ./aej42-fe
+          push: true
+          tags: snaydervicente/as241s5_aej42-fe:latest
