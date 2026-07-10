@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: snayder-vicente-42-fe-deployment
+  namespace: snayder-vicente-42-namespace
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: snayder-vicente-42-fe-deployment
+  template:
+    metadata:
+      labels:
+        app: snayder-vicente-42-fe-deployment
+    spec:
+      containers:
+      - name: snayder-vicente-42-fe-container
+        image: snaydervicente/as241s5_aej42-fe:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80

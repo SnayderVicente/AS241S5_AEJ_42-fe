@@ -1,0 +1,43 @@
+name: Pipeline CI/CD - Frontend to Kubernetes
+
+on:
+  push:
+    branches: [ develop ]
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Login a DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME_SNAYDER }}
+          password: ${{ secrets.DOCKERHUB_TOKEN_SNAYDER }}
+
+      - name: Build y Push imagen
+        uses: docker/build-push-action@v5
+        with:
+          context: ./aej42-fe
+          file: ./aej42-fe/Dockerfile
+          push: true
+          tags: snaydervicente/as241s5_aej42-fe:latest
+
+  deploy-to-kubernetes:
+    needs: build-and-push
+    runs-on: self-hosted
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Aplicar manifiestos en Kubernetes
+        run: |
+          kubectl apply -f manifest-snayder-vicente/snayder-vicente-42-fe-deployment.yml
+          kubectl apply -f manifest-snayder-vicente/snayder-vicente-42-fe-service.yml
+
+      - name: Forzar actualización del deployment (nueva imagen)
+        run: |
+          kubectl rollout restart deployment/snayder-vicente-42-fe-deployment -n snayder-vicente-42-namespace
+          kubectl rollout status deployment/snayder-vicente-42-fe-deployment -n snayder-vicente-42-namespace
