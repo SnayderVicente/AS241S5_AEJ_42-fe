@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const API_CHAT = 'http://localhost:8080/api/chat';
-const API_TRANSLATE = 'http://localhost:8080/api/translate';
+const API_CHAT = 'http://localhost:30042/api/chat';
+const API_TRANSLATE = 'http://localhost:30042/api/translate';
 
 function App() {
   const [chatResults, setChatResults] = useState([]);
